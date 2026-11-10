@@ -1,0 +1,166 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bone: #f3eee7;
+  --color-plaster: #e8e0d5;
+  --color-sand: #d9cdbd;
+  --color-ink: #1d1c1a;
+  --color-graphite: #4f4b46;
+  --color-stone: #8a847b;
+  --color-lagoon: #2c4541;
+  --color-lagoon-deep: #1d302d;
+  --color-clay: #a5755a;
+
+  --font-serif: 'Instrument Serif', 'Times New Roman', serif;
+  --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --text-display: clamp(3rem, min(8.4vw, 15svh), 9rem);
+  --text-mega: clamp(2.4rem, 5.2vw, 5.5rem);
+  --text-headline: clamp(2rem, 3.4vw, 3.6rem);
+}
+
+@layer base {
+  html {
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-bone text-ink font-sans;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-lagoon);
+    color: var(--color-bone);
+  }
+  h1, h2, h3, h4 {
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 1.5px solid var(--color-clay);
+    outline-offset: 3px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1520px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 3.5rem);
+  }
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .serif-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .hairline {
+    border-color: color-mix(in oklab, currentColor 18%, transparent);
+  }
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.6s var(--ease-silk);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+    background-position: 0 100%;
+  }
+  .field {
+    @apply w-full bg-transparent border-0 border-b py-3 text-base outline-none transition-colors;
+    border-color: color-mix(in oklab, currentColor 28%, transparent);
+  }
+  .field:focus {
+    border-color: currentColor;
+  }
+  .field::placeholder {
+    color: color-mix(in oklab, currentColor 45%, transparent);
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%238a847b' stroke-width='1.4'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    padding-right: 1.75rem;
+  }
+  select.field option {
+    color: var(--color-ink);
+  }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Unlayered so it outranks utility classes on the shared field components */
+/* Boxed variant used inside the booking popup */
+.form-boxed .field {
+  background-color: #fffdf9;
+  border: 1px solid var(--color-sand);
+  border-radius: 0.7rem;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-boxed .field:focus {
+  border-color: var(--color-clay);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-clay) 18%, transparent);
+}
+.form-boxed select.field {
+  background-position: right 0.9rem center;
+  padding-right: 2.25rem;
+}
+.form-boxed .field-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  opacity: 1;
+  color: color-mix(in oklab, var(--color-clay) 70%, var(--color-ink));
+}
+.form-boxed .field-label .req {
+  color: var(--color-clay);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
