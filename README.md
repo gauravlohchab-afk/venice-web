@@ -1,4 +1,4 @@
-# Venice Wellness Institute — website redesign
+# Venice Wellness Institute — website
 
 React 19 · TypeScript · Vite · Tailwind CSS 4 · Framer Motion · GSAP ScrollTrigger · React Router 7 · Lucide
 
@@ -11,37 +11,46 @@ npm run build        # type-check, build, pre-render <head> per route, sitemap.x
 npm run preview
 ```
 
-## Before going live
+On Windows machines where Smart App Control blocks Rolldown's native binary, install the WebAssembly build
+(`npm i --no-save @rolldown/binding-wasm32-wasi`) and prefix commands with `NAPI_RS_FORCE_WASI=1`.
 
-1. **Images.** All photographs are the clinic's own files from `venicewellnessinstitute.com/wp-content/uploads/`.
-   By default they load from the live WordPress site. To self-host them as AVIF/WebP:
-   ```bash
-   npm run fetch-media                  # downloads + converts into public/media/
-   VITE_LOCAL_MEDIA=true npm run build
-   ```
-   Do this before the old WordPress site is switched off, or every image will break.
-2. **Forms.** The old forms posted to WordPress. Set `VITE_FORM_ENDPOINT` (see `.env.example`) to a service that
-   accepts JSON. Without it, Book Now / Consultation / Contact open the visitor's email app with the request
-   pre-filled and addressed to venicewellnessinstitute@gmail.com, so nothing is lost but nothing is sent automatically either.
-3. **Hosting.** `dist/` is static. `dist/_redirects` (Netlify) and `dist/vercel.json` redirect the old WooCommerce
-   URLs (`/cart-2/`, `/checkout/`, `/my-account/`, `/wishlist/`, `/yith-compare/`) to `/shop/` and `/popup/` to the booking dialog.
-   Configure the host to serve `404.html` for unknown paths and keep trailing slashes.
-4. Review the content notes in `AUDIT.md` (privacy and refund policies are carried over as-is and are template text).
+## Images
+
+All images are self-hosted in `public/media/` as AVIF + WebP with a small JPG fallback, so the site does not depend
+on the old WordPress site.
+
+- `public/media/20xx/...` are the clinic's photos from the old site. Their paths keep the original upload names.
+  If an image is added in `src/data`, run `npm run fetch-media` to download and convert it.
+- `public/media/clinic/` are interior photos supplied directly by the clinic.
+- `public/brand/` holds the logo (light and dark versions), favicons and app icons.
+
+## Forms
+
+- **Booking popup** (Book Now, Appointment, Request Consultation) posts to the clinic's leads API:
+  `…/api/leads?type=booking` for direct bookings and `…/api/leads?type=call` for consultations, with
+  `center=venice-wellness-institute`. Defaults are built in; override with `VITE_LEADS_URL` / `VITE_LEADS_CENTER`.
+- **Contact page form** posts JSON to `VITE_FORM_ENDPOINT` if set, otherwise it opens the visitor's email app with
+  the message addressed to venicewellnessinstitute@gmail.com.
+
+## Hosting
+
+`dist/` is static. `dist/_redirects` (Netlify) and `dist/vercel.json` redirect old URLs from the WordPress site:
+WooCommerce pages and `/shop/` to `/services/`, `/refund_returns/` to `/contact-us/`, and `/popup/` to the booking
+popup. Configure the host to serve `404.html` for unknown paths and keep trailing slashes.
+
+The privacy policy describes how this site handles data and should be reviewed by the clinic before launch.
 
 ## Structure
 
 ```
 src/
-  data/          site facts, treatments, journal articles, SEO meta (single source of truth)
+  data/          site facts, treatments, journal articles, media paths, SEO meta (single source of truth)
   components/
-    layout/      Header (mega menu), MobileMenu, Footer, Layout (route curtain), FloatingBook
-    motion/      SplitText, Reveal, MaskImage, ScrubText (GSAP), Parallax, Cursor
-    forms/       BookingDialog, ConsultationForm, BookingForm, ContactForm, fields
-    ui/          Button, Img (AVIF/WebP + lazy), BeforeAfter, ConsultBand, LegalPage, RichBody, Seo
+    layout/      Header (mega menu), MobileMenu, Footer, Logo, Layout, FloatingBook
+    motion/      SplitText, Reveal, MaskImage, ScrubText (GSAP), Parallax
+    forms/       BookingDialog, BookingForm, ConsultationForm, ContactForm, fields
+    ui/          Button, Img (AVIF/WebP + lazy), TreatmentCard, BeforeAfter, ConsultBand, LegalPage, RichBody, Seo
+  lib/           leads.ts (leads API), submit.ts (contact form)
   pages/         one file per page; home/ and treatment/ hold page-specific sections
 scripts/         postbuild.mjs (head pre-render, sitemap, redirects), fetch-media.mjs
 ```
-
-Treatment pages use three compositions by category: facial (sticky split screen), body (cinematic full-bleed that
-recedes), hair (centred editorial spread). Motion respects `prefers-reduced-motion` (Framer `MotionConfig` +
-GSAP `matchMedia`); the horizontal treatment reel only pins on desktop.

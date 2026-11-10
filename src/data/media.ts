@@ -1,17 +1,11 @@
-// Images come from the original WordPress uploads. By default they are loaded from the
-// live site. Run `npm run fetch-media` to download and convert them to AVIF/WebP in
-// /public/media, then build with VITE_LOCAL_MEDIA=true to serve them locally.
-const REMOTE = 'https://venicewellnessinstitute.com/wp-content/uploads'
-const LOCAL = import.meta.env.VITE_LOCAL_MEDIA === 'true'
+// All images are self-hosted in /public/media as AVIF + WebP with a JPG fallback.
+// Paths keep the original WordPress upload names (e.g. 2025/11/1.png) so `npm run fetch-media`
+// can refresh them; clinic/ holds photos supplied directly by the clinic.
+export type Media = { src: string; avif: string; webp: string }
 
-export type Media = { src: string; avif?: string; webp?: string }
-
-// Photos under clinic/ were supplied directly by the clinic and live in /public/media/clinic,
-// so they are always served locally whatever VITE_LOCAL_MEDIA says.
 export const media = (path: string): Media => {
-  if (!LOCAL && !path.startsWith('clinic/')) return { src: `${REMOTE}/${path}` }
   const base = `/media/${path.replace(/\.[a-z]+$/i, '')}`
-  return { src: `/media/${path}`, avif: `${base}.avif`, webp: `${base}.webp` }
+  return { src: `${base}.jpg`, avif: `${base}.avif`, webp: `${base}.webp` }
 }
 
 export const img = {

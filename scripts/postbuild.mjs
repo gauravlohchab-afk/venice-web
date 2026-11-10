@@ -37,7 +37,7 @@ const business = {
 const head = (p) => {
   const url = SITE_URL + p.path
   const img = p.image ?? DEFAULT_OG
-  const isPost = !p.path.startsWith('/services/') && !['/', '/about-us/', '/services/', '/contact-us/', '/blogs/', '/faq/', '/privacy-policy/', '/shop/', '/booking/'].includes(p.path)
+  const isPost = !p.path.startsWith('/services/') && !['/', '/about-us/', '/services/', '/contact-us/', '/blogs/', '/faq/', '/privacy-policy/', '/booking/'].includes(p.path)
   const tags = [
     `<title>${esc(p.title)}</title>`,
     `<meta name="description" content="${esc(p.description)}" />`,
@@ -81,13 +81,14 @@ await writeFile(
 
 // Legacy WooCommerce / template URLs from the old site, and the SPA fallback.
 const redirects = [
-  ['/cart-2/', '/shop/'],
-  ['/checkout/', '/shop/'],
-  ['/my-account/', '/shop/'],
-  ['/wishlist/', '/shop/'],
-  ['/yith-compare/', '/shop/'],
+  ['/cart-2/', '/services/'],
+  ['/checkout/', '/services/'],
+  ['/my-account/', '/services/'],
+  ['/wishlist/', '/services/'],
+  ['/yith-compare/', '/services/'],
   ['/popup/', '/#book'],
   ['/refund_returns/', '/contact-us/'],
+  ['/shop/', '/services/'],
 ]
 await writeFile(join(dist, '_redirects'), redirects.map(([a, b]) => `${a} ${b} 301`).join('\n') + '\n/* /404.html 404\n')
 await writeFile(

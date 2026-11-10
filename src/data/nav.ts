@@ -8,6 +8,5 @@ export const mainNav = [
 
 export const footerNav = [
   { label: 'FAQ', to: '/faq/' },
-  { label: 'Shop', to: '/shop/' },
   { label: 'Privacy Policy', to: '/privacy-policy/' },
 ] as const

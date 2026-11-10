@@ -5,11 +5,11 @@ import { posts } from './posts.ts'
 
 export const SITE_URL = 'https://venicewellnessinstitute.com'
 export const SUFFIX = 'Venice Wellness Institute'
-export const DEFAULT_OG = 'https://venicewellnessinstitute.com/wp-content/uploads/2025/11/venice-ph-main.png'
+// Share images use the self-hosted JPGs in /public/media.
+const ogImage = (path: string) => SITE_URL + '/media/' + path.replace(/\.[a-z]+$/i, '') + '.jpg'
+export const DEFAULT_OG = ogImage('2025/11/venice-ph-main.png')
 
 export type PageMeta = { path: string; title: string; description: string; image?: string; noindex?: boolean }
-
-const MEDIA = 'https://venicewellnessinstitute.com/wp-content/uploads/'
 
 export const staticPages: PageMeta[] = [
   {
@@ -53,11 +53,6 @@ export const staticPages: PageMeta[] = [
     description: 'How venicewellnessinstitute.com collects, uses and stores personal data.',
   },
   {
-    path: '/shop/',
-    title: `Shop | ${SUFFIX}`,
-    description: 'Our store is in the works and will be launching soon.',
-  },
-  {
     path: '/booking/',
     title: `Book an Appointment | ${SUFFIX}`,
     description: 'Book a facial, body or hair treatment at Venice Wellness Institute in Lipa City, or request a consultation with our specialists.',
@@ -68,14 +63,14 @@ export const treatmentPages: PageMeta[] = treatments.map((t) => ({
   path: `/services/${t.slug}/`,
   title: `${t.name} | ${t.title} | ${SUFFIX}`,
   description: t.metaDescription,
-  image: MEDIA + t.image,
+  image: ogImage(t.image),
 }))
 
 export const postPages: PageMeta[] = posts.map((p) => ({
   path: `/${p.slug}/`,
   title: `${p.title} | ${SUFFIX}`,
   description: p.excerpt,
-  image: MEDIA + p.image,
+  image: ogImage(p.image),
 }))
 
 export const allPages = [...staticPages, ...treatmentPages, ...postPages]

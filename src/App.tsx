@@ -13,7 +13,6 @@ const Blogs = lazy(() => import('./pages/Blogs'))
 const Post = lazy(() => import('./pages/Post'))
 const Faq = lazy(() => import('./pages/Faq'))
 const Privacy = lazy(() => import('./pages/Privacy'))
-const Shop = lazy(() => import('./pages/Shop'))
 const Booking = lazy(() => import('./pages/Booking'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -34,11 +33,11 @@ export function App() {
                 <Route path="faq" element={<Faq />} />
                 <Route path="privacy-policy" element={<Privacy />} />
                 <Route path="refund_returns" element={<Navigate to="/contact-us/" replace />} />
-                <Route path="shop" element={<Shop />} />
+                <Route path="shop" element={<Navigate to="/services/" replace />} />
                 <Route path="booking" element={<Booking />} />
                 {/* WooCommerce utility pages from the original site; there are no products yet */}
                 {['cart-2', 'checkout', 'my-account', 'wishlist', 'yith-compare'].map((p) => (
-                  <Route key={p} path={p} element={<Navigate to="/shop/" replace />} />
+                  <Route key={p} path={p} element={<Navigate to="/services/" replace />} />
                 ))}
                 {/* The original /popup/ page is the booking modal template */}
                 <Route path="popup" element={<Navigate to="/#book" replace />} />

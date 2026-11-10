@@ -1,8 +1,4 @@
 node_modules
 dist
-# images downloaded from the old site by npm run fetch-media (regenerable)
-public/media/*
-# photos supplied by the clinic are part of the site
-!public/media/clinic/
 .env*
 !.env.example

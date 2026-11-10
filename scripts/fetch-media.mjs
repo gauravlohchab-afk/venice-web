@@ -1,7 +1,7 @@
 // Downloads every image the site references from the original WordPress uploads into
-// public/media/, and writes AVIF + WebP versions next to each one (max 2000px wide).
-// Afterwards build with:  VITE_LOCAL_MEDIA=true npm run build
-import { mkdir, readdir, readFile, writeFile, stat } from 'node:fs/promises'
+// public/media/ as AVIF + WebP (max 2000px wide) plus a small JPG fallback. The results are
+// committed and the site always serves them locally; rerun only if images are added.
+import { mkdir, readdir, readFile, stat } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
@@ -27,9 +27,9 @@ for (const f of await walk(join(root, 'src'))) {
 console.log(`Found ${paths.size} images`)
 
 for (const p of paths) {
-  const dest = join(out, p)
+  const base = join(out, p).replace(/\.[a-z]+$/i, '')
   try {
-    await stat(dest)
+    await stat(base + '.avif')
     console.log('skip', p)
     continue
   } catch {}
@@ -39,11 +39,11 @@ for (const p of paths) {
     continue
   }
   const buf = Buffer.from(await res.arrayBuffer())
-  await mkdir(dirname(dest), { recursive: true })
-  await writeFile(dest, buf)
-  const base = dest.replace(/\.[a-z]+$/i, '')
+  await mkdir(dirname(base), { recursive: true })
   const img = sharp(buf).resize({ width: 2000, withoutEnlargement: true })
   await img.clone().avif({ quality: 55 }).toFile(base + '.avif')
   await img.clone().webp({ quality: 78 }).toFile(base + '.webp')
+  // Small JPG fallback for browsers without AVIF/WebP; the full-size original is not kept.
+  await sharp(buf).resize({ width: 1600, withoutEnlargement: true }).flatten({ background: '#f3eee7' }).jpeg({ quality: 80, mozjpeg: true }).toFile(base + '.jpg')
   console.log('ok', p)
 }

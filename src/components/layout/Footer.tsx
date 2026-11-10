@@ -16,7 +16,6 @@ const social = [
 
 const legal = [
   { label: 'FAQ', to: '/faq/' },
-  { label: 'Shop', to: '/shop/' },
   { label: 'Privacy Policy', to: '/privacy-policy/' },
 ]
 

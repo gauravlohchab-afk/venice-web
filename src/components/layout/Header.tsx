@@ -20,9 +20,6 @@ export function Header() {
   const { openBooking } = useBooking()
   const { pathname } = useLocation()
   const closeTimer = useRef<number>(0)
-  // Pages that open on a dark full-bleed hero need light header text until the bar fills in.
-  const darkHero = pathname === '/shop/'
-  const light = darkHero && !scrolled && !mega
 
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0
@@ -52,14 +49,13 @@ export function Header() {
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500',
           mega ? 'border-b hairline bg-bone' : scrolled ? 'border-b hairline bg-bone/85 backdrop-blur-xl' : 'border-b border-transparent',
-          light && 'text-bone',
         )}
         animate={{ y: hidden ? '-100%' : '0%' }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         onMouseLeave={closeMega}
       >
         <div className="wrap flex h-[76px] items-center justify-between gap-6">
-          <Logo light={light} />
+          <Logo />
           <nav aria-label="Main" className="hidden lg:block">
             <ul className="flex items-center gap-9 text-[0.78rem] uppercase tracking-[0.2em]">
               {mainNav.map((item) =>
@@ -91,10 +87,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => openBooking('booking')}
-              className={cn(
-                'group relative hidden h-11 overflow-hidden rounded-full px-6 text-[0.72rem] uppercase tracking-[0.2em] transition-colors duration-500 sm:block',
-                light ? 'bg-bone text-ink hover:text-bone' : 'bg-ink text-bone',
-              )}
+              className="group relative hidden h-11 overflow-hidden rounded-full bg-ink px-6 text-[0.72rem] uppercase tracking-[0.2em] text-bone transition-colors duration-500 sm:block"
             >
               <span className="relative z-10">Book Now</span>
               <span className="absolute inset-0 origin-left scale-x-0 bg-lagoon transition-transform duration-500 ease-[var(--ease-silk)] group-hover:scale-x-100" />

@@ -13,10 +13,10 @@
 | 10 articles (Dec 2025 – Mar 2026) | same URLs | Carried over |
 | `/faq/` | `/faq/` | Answers rewritten from site facts (original answers were lorem ipsum) |
 | `/privacy-policy/` | `/privacy-policy/` | Carried over (WordPress template text) |
-| `/refund_returns/` | `/refund_returns/` | Carried over (WooCommerce sample; placeholders filled with clinic email/address) |
-| `/shop/` | `/shop/` | "Coming soon", as original |
+| `/refund_returns/` | redirect to `/contact-us/` | Removed: WooCommerce sample policy, nothing is sold online |
+| `/shop/` | redirect to `/services/` | Removed: "coming soon" page with no products |
 | `/popup/` | redirects to booking dialog | It was the modal template, not a page |
-| `/cart-2/`, `/checkout/`, `/my-account/`, `/wishlist/`, `/yith-compare/` | redirect to `/shop/` | Empty WooCommerce pages, no products |
+| `/cart-2/`, `/checkout/`, `/my-account/`, `/wishlist/`, `/yith-compare/` | redirect to `/services/` | Empty WooCommerce pages, no products |
 
 Navigation: Home, About Us, Services (Facial / Body / Hair dropdown, 14 items), Contact Us, Blogs. Footer: About blurb, We Are Social, Contact Us.
 
@@ -43,6 +43,6 @@ Booking form fields, time slots (9 AM–5 PM) and payment methods (Card, GCash, 
 - Article "7 Signs…" contains three signs on the original; kept as published.
 - Article "Tech-Based Wellness…": the "Sauna Therapy" section contained Pico laser text, so that section was omitted.
 - Article "How to Choose…" said "High 7D"; corrected to HIFU 7D.
-- Privacy and refund policies are unedited templates (comments/login cookies, shipping returns) and should be reviewed.
+- The privacy policy was rewritten to describe how this site handles data (the original was the WordPress template) and should be reviewed by the clinic.
 - Copy was obtained through a reader that paraphrases long passages; wording is close to, not identical with, the original. Facts were not changed or added.
 - The Instagram reference post could not be opened (Instagram blocks automated access).
