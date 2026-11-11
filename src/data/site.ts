@@ -29,11 +29,3 @@ export const site = {
   about:
     'At Venice Wellness Institute, we believe that true beauty and confidence begin with balance, inside and out. Our mission is to provide advanced face, body, and hair treatments that combine modern technology with a holistic approach to self-care.',
 } as const
-
-export const mailto = (subject?: string, body?: string) => {
-  const q = new URLSearchParams()
-  if (subject) q.set('subject', subject)
-  if (body) q.set('body', body)
-  const qs = q.toString().replace(/\+/g, '%20')
-  return `mailto:${site.email}${qs ? `?${qs}` : ''}`
-}

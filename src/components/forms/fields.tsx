@@ -44,11 +44,14 @@ export function SelectField({ label, required, className, children, ...rest }: W
   )
 }
 
-/** Grouped treatment list, identical to the original site's booking forms. */
-export function TreatmentOptions() {
+/**
+ * Grouped treatment list, identical to the original site's booking forms.
+ * `general` adds a selectable "General enquiry" first option instead of the empty prompt.
+ */
+export function TreatmentOptions({ general }: { general?: boolean }) {
   return (
     <>
-      <option value="">Select a treatment</option>
+      {general ? <option value="General enquiry">General enquiry</option> : <option value="">Select a treatment</option>}
       {(Object.keys(categories) as Category[]).map((c) => (
         <optgroup key={c} label={categories[c].label}>
           {byCategory(c).map((t) => (

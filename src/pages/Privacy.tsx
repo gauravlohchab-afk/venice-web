@@ -8,7 +8,7 @@ export default function Privacy() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="10 November 2026"
+      updated="11 November 2026"
       intro={
         <p>
           This policy explains what information {site.name} collects through this website, why we collect it and how you can contact us about it.
@@ -33,9 +33,9 @@ export default function Privacy() {
               <ul>
                 <li>Booking requests: your name, email address, phone number, age, preferred date and time, the treatment you are interested in and your preferred payment method.</li>
                 <li>Consultation requests: your name, email address, phone number, the treatment you are interested in and any message you add.</li>
-                <li>Contact form: this opens your own email app with your message addressed to us, so we receive only what you choose to send.</li>
+                <li>Contact form: your name, email address, phone number, the treatment you are interested in (or a general enquiry) and your message.</li>
               </ul>
-              <p>With booking and consultation requests we also record which page of the website the request was sent from.</p>
+              <p>With every request we also record which page of the website it was sent from.</p>
             </>
           ),
         },
@@ -51,7 +51,7 @@ export default function Privacy() {
           heading: 'Where it is stored',
           body: (
             <p>
-              Booking and consultation requests are sent over an encrypted connection to the system our team uses to manage enquiries and appointments. Only clinic staff who handle your request can see them.
+              Requests from all forms are sent over an encrypted connection to the system our team uses to manage enquiries and appointments. Only clinic staff who handle your request can see them.
             </p>
           ),
         },

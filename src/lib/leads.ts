@@ -1,4 +1,4 @@
-import type { SubmitResult } from './submit'
+export type SubmitResult = { ok: true; via: 'endpoint' | 'email' } | { ok: false; error: string }
 
 // Leads go to the clinic's CRM. Both values can be overridden per environment.
 const LEADS_URL =

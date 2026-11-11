@@ -26,11 +26,12 @@ on the old WordPress site.
 
 ## Forms
 
-- **Booking popup** (Book Now, Appointment, Request Consultation) posts to the clinic's leads API:
-  `…/api/leads?type=booking` for direct bookings and `…/api/leads?type=call` for consultations, with
-  `center=venice-wellness-institute`. Defaults are built in; override with `VITE_LEADS_URL` / `VITE_LEADS_CENTER`.
-- **Contact page form** posts JSON to `VITE_FORM_ENDPOINT` if set, otherwise it opens the visitor's email app with
-  the message addressed to venicewellnessinstitute@gmail.com.
+All forms post to the clinic's leads API with `center=venice-wellness-institute`. Defaults are built in;
+override with `VITE_LEADS_URL` / `VITE_LEADS_CENTER`.
+
+- **Booking popup, Direct Booking tab**: `…/api/leads?type=booking` (includes `schedule`, age and payment method).
+- **Booking popup, Consultation tab**, the consultation block on inner pages, and the **Contact page form**:
+  `…/api/leads?type=call`. Each lead includes the page it was sent from, so contact-page enquiries can be told apart.
 
 ## Hosting
 
@@ -50,7 +51,7 @@ src/
     motion/      SplitText, Reveal, MaskImage, ScrubText (GSAP), Parallax
     forms/       BookingDialog, BookingForm, ConsultationForm, ContactForm, fields
     ui/          Button, Img (AVIF/WebP + lazy), TreatmentCard, BeforeAfter, ConsultBand, LegalPage, RichBody, Seo
-  lib/           leads.ts (leads API), submit.ts (contact form)
+  lib/           leads.ts (leads API for all forms)
   pages/         one file per page; home/ and treatment/ hold page-specific sections
 scripts/         postbuild.mjs (head pre-render, sitemap, redirects), fetch-media.mjs
 ```
