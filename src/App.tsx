@@ -16,10 +16,11 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const Booking = lazy(() => import('./pages/Booking'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
-export function App() {
+/** Routes and providers without a router, so the browser (BrowserRouter) and the build-time
+ *  pre-renderer (StaticRouter in entry-server.tsx) can share them. */
+export function AppRoutes() {
   return (
     <MotionConfig reducedMotion="user">
-      <BrowserRouter>
         <BookingProvider>
           <Suspense fallback={<div className="min-h-screen" />}>
             <Routes>
@@ -47,7 +48,14 @@ export function App() {
             </Routes>
           </Suspense>
         </BookingProvider>
-      </BrowserRouter>
     </MotionConfig>
+  )
+}
+
+export function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }

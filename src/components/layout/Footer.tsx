@@ -112,7 +112,8 @@ export function Footer() {
       {/* legal bar; right padding on wide screens keeps it clear of the floating Book Now button */}
       <div className="border-t border-bone/10">
         <div className="wrap flex flex-col gap-3 pt-5 pb-20 text-xs text-bone/45 sm:pb-5 md:flex-row md:items-center md:justify-between md:pr-[17rem]">
-          <p>© {new Date().getFullYear()} {site.legalName}</p>
+          {/* the year is baked in at build time; a new year must not break hydration */}
+          <p suppressHydrationWarning>© {new Date().getFullYear()} {site.legalName}</p>
           <ul className="flex flex-wrap gap-x-5 gap-y-1">
             {legal.map((l) => (
               <li key={l.to}>

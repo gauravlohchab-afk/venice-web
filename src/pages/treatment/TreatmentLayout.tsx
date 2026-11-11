@@ -18,7 +18,7 @@ export function TreatmentLayout({ t }: { t: Treatment }) {
         <Crumbs t={t} />
         <div className="mt-8 grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-6">
-            <p className="eyebrow text-clay">{categories[t.category].label}</p>
+            <p className="eyebrow text-clay">{categories[t.category].label} · {site.address.city}</p>
             <h1 className="mt-5 font-serif text-[length:var(--text-mega)] leading-[0.95] tracking-[-0.01em]">{t.title}</h1>
             <p className="serif-italic mt-4 text-2xl text-clay sm:text-[1.7rem]">{t.tagline}</p>
             <p className="mt-5 max-w-lg text-lg text-graphite">{t.summary}</p>
@@ -45,7 +45,7 @@ export function TreatmentLayout({ t }: { t: Treatment }) {
       <section className="py-20 sm:py-28">
         <div className="wrap grid gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal className="lg:col-span-5">
-            <p className="eyebrow text-clay">{t.whyHeading}</p>
+            <h2 className="eyebrow text-clay">{t.whyHeading}</h2>
             <p className="mt-5 font-serif text-[length:var(--text-headline)] leading-[1.06]">{t.lead}</p>
             {t.areas && (
               <div className="mt-8">
@@ -73,9 +73,9 @@ export function TreatmentLayout({ t }: { t: Treatment }) {
         <Reveal className="grid gap-4 rounded-3xl bg-ink p-6 text-bone sm:p-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-4">
             <p className="eyebrow text-bone/55">Opening hours</p>
-            <p className="mt-3 font-serif text-[clamp(1.8rem,2.8vw,2.6rem)] leading-tight">
+            <h2 className="mt-3 font-serif text-[clamp(1.8rem,2.8vw,2.6rem)] leading-tight">
               Book your <span className="serif-italic text-sand">{t.short}</span>
-            </p>
+            </h2>
           </div>
           <dl className="grid gap-3 sm:grid-cols-2 lg:col-span-5">
             {site.hours.map((h) => (

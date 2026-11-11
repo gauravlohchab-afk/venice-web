@@ -12,7 +12,14 @@ export const site = {
   address: {
     line1: 'GF Firrst Commercial Complex',
     line2: 'Brgy. Sabang, Lipa City',
+    city: 'Lipa City',
+    region: 'Batangas',
+    postalCode: '4217',
     country: 'Philippines',
+    countryCode: 'PH',
+    // From the clinic's Google Maps listing (plus code X548+529, Lipa City).
+    plusCode: 'X548+529 Lipa City, Batangas',
+    geo: { lat: 13.9554, lng: 121.1651 },
     mapEmbed:
       'https://maps.google.com/maps?q=Venice%20Wellness%20Institute%20PH&t=m&z=17&output=embed&iwloc=near',
     mapLink: 'https://www.google.com/maps/search/?api=1&query=Venice%20Wellness%20Institute%20PH%20Lipa%20City',

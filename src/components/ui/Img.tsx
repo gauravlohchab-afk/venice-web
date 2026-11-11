@@ -12,7 +12,9 @@ type Props = Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> & {
 /** Responsive picture with AVIF/WebP sources when media is self-hosted. Lazy by default. */
 export function Img({ path, alt, priority, className, frameClassName, width = 1200, height = 1500, ...rest }: Props) {
   const m = media(path)
-  const [loaded, setLoaded] = useState(false)
+  // Priority (above-the-fold) images are never hidden, so they can paint from the pre-rendered
+  // HTML before JavaScript runs (better LCP). Other images fade in once loaded.
+  const [loaded, setLoaded] = useState(!!priority)
   const [failed, setFailed] = useState(false)
   return (
     <span className={cn(!/\b(absolute|fixed)\b/.test(frameClassName ?? '') && 'relative', 'block overflow-hidden bg-plaster', frameClassName)}>
@@ -25,6 +27,10 @@ export function Img({ path, alt, priority, className, frameClassName, width = 12
           <img
             src={m.src}
             alt={alt}
+            // An image that finished loading before hydration never fires onLoad again.
+            ref={(el) => {
+              if (el?.complete && el.naturalWidth) setLoaded(true)
+            }}
             width={width}
             height={height}
             loading={priority ? 'eager' : 'lazy'}

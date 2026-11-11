@@ -21,7 +21,8 @@ export function Layout() {
     <>
       <Seo />
       <Header />
-      <AnimatePresence mode="wait">
+      {/* initial={false}: the first page is visible in the pre-rendered HTML; only route changes fade */}
+      <AnimatePresence mode="wait" initial={false}>
         <motion.main
           id="main"
           key={location.pathname}

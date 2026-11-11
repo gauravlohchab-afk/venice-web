@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Lock, Phone } from 'lucide-react'
 import { submitLead } from '../../lib/leads'
 import { cn } from '../../lib/cn'
@@ -13,6 +13,9 @@ type Props = { treatment?: string; onDone?: (via: 'endpoint' | 'email') => void;
 export function BookingForm({ treatment, onDone, variant = 'default' }: Props) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  // Set after mount: a pre-rendered page would otherwise keep the build date as the minimum.
+  const [minDate, setMinDate] = useState<string>()
+  useEffect(() => setMinDate(today()), [])
   const dialog = variant === 'dialog'
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -32,7 +35,7 @@ export function BookingForm({ treatment, onDone, variant = 'default' }: Props) {
       <TextField label="Email Address" name="email" type="email" required autoComplete="email" placeholder="you@email.com" />
       <TextField label="Phone Number" name="phone" type="tel" required autoComplete="tel" inputMode="tel" placeholder="+63 9XX XXX XXXX" />
       <TextField label="Age" name="age" type="number" min={1} max={120} required inputMode="numeric" placeholder="e.g. 28" />
-      <TextField label="Preferred Date" name="preferredDate" type="date" min={today()} required />
+      <TextField label="Preferred Date" name="preferredDate" type="date" min={minDate} required />
       <SelectField label="Preferred Time" name="preferredTime" required defaultValue="">
         <option value="">Select a time</option>
         {TIMES.map((t) => (

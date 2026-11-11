@@ -10,6 +10,7 @@ import { Button } from '../components/ui/Button'
 import { useBooking } from '../context/BookingContext'
 import { findPost, formatDate, posts } from '../data/posts'
 import { SITE_URL } from '../data/seo'
+import { treatmentsInPost } from '../data/related'
 import NotFound from './NotFound'
 
 export default function Post() {
@@ -25,6 +26,7 @@ export default function Post() {
   const idx = posts.indexOf(post)
   const prev = posts[idx - 1]
   const next = posts[idx + 1]
+  const mentioned = treatmentsInPost(post)
 
   return (
     <article>
@@ -37,7 +39,7 @@ export default function Post() {
           <SplitText immediate delay={0.3} text={post.title} stagger={0.03} />
         </h1>
         <p className="eyebrow mt-8 text-stone">
-          <time dateTime={post.date}>{formatDate(post.date)}</time> · Venice Wellness Institute
+          <time dateTime={post.date}>{formatDate(post.date)}</time> · Venice Wellness Institute, Lipa City
         </p>
       </header>
 
@@ -85,6 +87,20 @@ export default function Post() {
         </aside>
         <div className="max-w-[44rem] lg:col-span-7 lg:col-start-5">
           <RichBody lines={post.body} />
+          {mentioned.length > 0 && (
+            <div className="mt-16 border-t hairline pt-10">
+              <h2 className="eyebrow text-stone">Treatments in this article</h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {mentioned.map((t) => (
+                  <li key={t.slug}>
+                    <Link to={`/services/${t.slug}/`} className="inline-block rounded-full border hairline px-4 py-1.5 text-sm transition-colors hover:bg-ink hover:text-bone">
+                      {t.short} in Lipa City
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="mt-16 border-t hairline pt-10">
             <p className="font-serif text-3xl">Ready to begin?</p>
             <p className="mt-3 text-graphite">Book a consultation and our specialists will build a plan around your skin and goals.</p>

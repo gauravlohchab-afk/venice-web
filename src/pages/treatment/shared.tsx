@@ -6,6 +6,9 @@ import { TreatmentCard } from '../../components/ui/TreatmentCard'
 import { Reveal } from '../../components/motion/Reveal'
 import { useBooking } from '../../context/BookingContext'
 import { byCategory, categories, treatments, type Treatment } from '../../data/treatments'
+import { treatmentFaq } from '../../data/faq'
+import { formatDate } from '../../data/posts'
+import { postsForTreatment } from '../../data/related'
 
 export function Crumbs({ t, light }: { t: Treatment; light?: boolean }) {
   return (
@@ -71,6 +74,55 @@ export function MoreTreatments({ t }: { t: Treatment }) {
           </Link>
         </Reveal>
       </div>
+    </section>
+  )
+}
+
+/** Answer-first questions about the treatment (also emitted as FAQPage data by the build). */
+export function TreatmentQA({ t }: { t: Treatment }) {
+  const qa = treatmentFaq(t)
+  return (
+    <section className="wrap pb-20 sm:pb-28" aria-labelledby="qa">
+      <div className="grid gap-10 border-t hairline pt-10 lg:grid-cols-12 lg:gap-14">
+        <div className="lg:col-span-4">
+          <p className="eyebrow text-clay">Good to know</p>
+          <h2 id="qa" className="mt-4 font-serif text-[clamp(1.8rem,2.8vw,2.6rem)] leading-tight">
+            {t.short} <span className="serif-italic">questions</span>
+          </h2>
+        </div>
+        <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-8">
+          {qa.map((f) => (
+            <div key={f.q}>
+              <dt className="font-serif text-xl leading-snug">{f.q}</dt>
+              <dd className="mt-2 text-graphite">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  )
+}
+
+/** Journal articles that discuss this treatment. */
+export function RelatedReading({ t }: { t: Treatment }) {
+  const list = postsForTreatment(t)
+  if (!list.length) return null
+  return (
+    <section className="wrap pb-20 sm:pb-28" aria-labelledby="reading">
+      <h2 id="reading" className="border-t hairline pt-10 font-serif text-[clamp(1.6rem,2.4vw,2.2rem)] leading-none">
+        Related <span className="serif-italic">reading</span>
+      </h2>
+      <ul className="mt-8 grid gap-5 md:grid-cols-3">
+        {list.map((p) => (
+          <li key={p.slug}>
+            <Link to={`/${p.slug}/`} className="group block h-full rounded-3xl border hairline p-6 transition-colors hover:bg-plaster">
+              <p className="text-[0.65rem] uppercase tracking-[0.18em] text-stone">{formatDate(p.date)}</p>
+              <p className="mt-3 font-serif text-xl leading-snug transition-colors group-hover:text-clay">{p.title}</p>
+              <p className="mt-2 line-clamp-3 text-sm text-graphite">{p.excerpt}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }

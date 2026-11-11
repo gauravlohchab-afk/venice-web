@@ -3,7 +3,7 @@ import { ConsultBand } from '../components/ui/ConsultBand'
 import { findTreatment } from '../data/treatments'
 import NotFound from './NotFound'
 import { TreatmentLayout } from './treatment/TreatmentLayout'
-import { MoreTreatments } from './treatment/shared'
+import { MoreTreatments, RelatedReading, TreatmentQA } from './treatment/shared'
 
 export default function Treatment() {
   const { slug } = useParams()
@@ -12,6 +12,8 @@ export default function Treatment() {
   return (
     <>
       <TreatmentLayout t={t} />
+      <TreatmentQA t={t} />
+      <RelatedReading t={t} />
       <MoreTreatments t={t} />
       <ConsultBand treatment={t.name} />
     </>

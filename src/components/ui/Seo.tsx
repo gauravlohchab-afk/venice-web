@@ -21,12 +21,17 @@ export function Seo({ title, description }: { title?: string; description?: stri
     const t = title ?? m?.title ?? staticPages[0].title
     const d = description ?? m?.description ?? staticPages[0].description
     const url = SITE_URL + (m?.path ?? pathname)
+    const img = m?.ogImage ?? DEFAULT_OG
     document.title = t
     setMeta('name', 'description', d)
+    setMeta('property', 'og:type', m?.kind === 'post' ? 'article' : 'website')
     setMeta('property', 'og:title', t)
     setMeta('property', 'og:description', d)
     setMeta('property', 'og:url', url)
-    setMeta('property', 'og:image', m?.image ?? DEFAULT_OG)
+    setMeta('property', 'og:image', img)
+    setMeta('name', 'twitter:title', t)
+    setMeta('name', 'twitter:description', d)
+    setMeta('name', 'twitter:image', img)
     let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (!link) {
       link = document.createElement('link')
