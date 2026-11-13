@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { BookingDialog } from '../forms/BookingDialog'
@@ -21,18 +21,18 @@ export function Layout() {
     <>
       <Seo />
       <Header />
-      {/* initial={false}: the first page is visible in the pre-rendered HTML; only route changes fade */}
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.main
-          id="main"
-          key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: 0.45 } }}
-          exit={{ opacity: 0, transition: { duration: 0.2 } }}
-        >
-          <Outlet />
-        </motion.main>
-      </AnimatePresence>
+      {/* Each route fades in when navigated to. The first page (location.key "default") is not
+          faded, so the pre-rendered HTML is visible before JavaScript runs. There is deliberately
+          no exit animation: with AnimatePresence the outgoing <main> re-renders the new route via
+          <Outlet>, and the incoming page could stay stuck at opacity 0 until a second click. */}
+      <motion.main
+        id="main"
+        key={location.pathname}
+        initial={location.key === 'default' ? false : { opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.45 } }}
+      >
+        <Outlet />
+      </motion.main>
       <Footer />
       <FloatingBook />
       <BookingDialog />
